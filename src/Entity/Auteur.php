@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\EditeurRepository;
+use App\Repository\AuteurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: EditeurRepository::class)]
-class Editeur
+#[ORM\Entity(repositoryClass: AuteurRepository::class)]
+class Auteur
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -21,10 +21,19 @@ class Editeur
     #[ORM\Column(length: 255)]
     private ?string $prenoms = null;
 
+    #[ORM\Column]
+    private ?\DateTimeImmutable $date_naissance = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $date_deces = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $nationalite = null;
+
     /**
      * @var Collection<int, Livre>
      */
-    #[ORM\OneToMany(targetEntity: Livre::class, mappedBy: 'editeur', orphanRemoval: true)]
+    #[ORM\ManyToMany(targetEntity: Livre::class, inversedBy: 'auteurs')]
     private Collection $livres;
 
     public function __construct()
@@ -61,6 +70,42 @@ class Editeur
         return $this;
     }
 
+    public function getDateNaissance(): ?\DateTimeImmutable
+    {
+        return $this->date_naissance;
+    }
+
+    public function setDateNaissance(\DateTimeImmutable $date_naissance): static
+    {
+        $this->date_naissance = $date_naissance;
+
+        return $this;
+    }
+
+    public function getDateDeces(): ?\DateTimeImmutable
+    {
+        return $this->date_deces;
+    }
+
+    public function setDateDeces(\DateTimeImmutable $date_deces): static
+    {
+        $this->date_deces = $date_deces;
+
+        return $this;
+    }
+
+    public function getNationalite(): ?string
+    {
+        return $this->nationalite;
+    }
+
+    public function setNationalite(string $nationalite): static
+    {
+        $this->nationalite = $nationalite;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Livre>
      */
@@ -73,7 +118,6 @@ class Editeur
     {
         if (!$this->livres->contains($livre)) {
             $this->livres->add($livre);
-            $livre->setEditeur($this);
         }
 
         return $this;
@@ -81,12 +125,7 @@ class Editeur
 
     public function removeLivre(Livre $livre): static
     {
-        if ($this->livres->removeElement($livre)) {
-            // set the owning side to null (unless already changed)
-            if ($livre->getEditeur() === $this) {
-                $livre->setEditeur(null);
-            }
-        }
+        $this->livres->removeElement($livre);
 
         return $this;
     }
