@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\AuteurRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AuteurRepository::class)]
@@ -24,22 +22,11 @@ class Auteur
     #[ORM\Column]
     private ?\DateTimeImmutable $date_naissance = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $date_deces = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $nationalite = null;
-
-    /**
-     * @var Collection<int, Livre>
-     */
-    #[ORM\ManyToMany(targetEntity: Livre::class, inversedBy: 'auteurs')]
-    private Collection $livres;
-
-    public function __construct()
-    {
-        $this->livres = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -102,30 +89,6 @@ class Auteur
     public function setNationalite(string $nationalite): static
     {
         $this->nationalite = $nationalite;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Livre>
-     */
-    public function getLivres(): Collection
-    {
-        return $this->livres;
-    }
-
-    public function addLivre(Livre $livre): static
-    {
-        if (!$this->livres->contains($livre)) {
-            $this->livres->add($livre);
-        }
-
-        return $this;
-    }
-
-    public function removeLivre(Livre $livre): static
-    {
-        $this->livres->removeElement($livre);
 
         return $this;
     }

@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
-use App\Repository\CommentaireRepository;
 use App\Enum\CommentaireStatus;
+use App\Repository\CommentaireRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CommentaireRepository::class)]
@@ -27,14 +27,10 @@ class Commentaire
     private ?\DateTimeImmutable $date_publication = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $contenu = null;
-
-    #[ORM\Column(enumType: CommentaireStatus::class)]
     private ?CommentaireStatus $statut = null;
 
-    #[ORM\ManyToOne(inversedBy: 'commentaires')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Livre $livre = null;
+    #[ORM\Column(length: 255)]
+    private ?string $contenu = null;
 
     public function getId(): ?int
     {
@@ -89,18 +85,6 @@ class Commentaire
         return $this;
     }
 
-    public function getContenu(): ?string
-    {
-        return $this->contenu;
-    }
-
-    public function setContenu(string $contenu): static
-    {
-        $this->contenu = $contenu;
-
-        return $this;
-    }
-
     public function getStatut(): ?CommentaireStatus
     {
         return $this->statut;
@@ -113,14 +97,14 @@ class Commentaire
         return $this;
     }
 
-    public function getLivre(): ?Livre
+    public function getContenu(): ?string
     {
-        return $this->livre;
+        return $this->contenu;
     }
 
-    public function setLivre(?Livre $livre): static
+    public function setContenu(string $contenu): static
     {
-        $this->livre = $livre;
+        $this->contenu = $contenu;
 
         return $this;
     }
