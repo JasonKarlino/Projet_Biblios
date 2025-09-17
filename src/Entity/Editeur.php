@@ -20,7 +20,7 @@ class Editeur
 
     #[ORM\Column(length: 255)]
     private ?string $prenoms = null;
-
+ 
     /**
      * @var Collection<int, Livre>
      */
@@ -29,7 +29,7 @@ class Editeur
 
     public function __construct()
     {
-        $this->livres = new ArrayCollection();
+        $this->livres = new ArrayCollection(); 
     }
 
     public function getId(): ?int
