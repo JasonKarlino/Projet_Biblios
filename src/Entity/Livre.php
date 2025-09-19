@@ -28,7 +28,7 @@ class Livre
     #[ORM\Column]
     private ?\DateTimeImmutable $date_sortie = null;
 
-    #[ORM\Column]
+    #[ORM\Column] 
     private ?int $nombrePages = null;
 
     #[ORM\Column(length: 500)]

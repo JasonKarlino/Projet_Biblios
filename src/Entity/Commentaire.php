@@ -23,7 +23,7 @@ class Commentaire
     #[ORM\Column]
     private ?\DateTimeImmutable $date_creation = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $date_publication = null;
 
     #[ORM\Column(length: 255)]
@@ -38,7 +38,7 @@ class Commentaire
 
     public function getId(): ?int
     {
-        return $this->id;
+        return $this->id; 
     }
 
     public function getNomAuteur(): ?string
@@ -82,7 +82,7 @@ class Commentaire
         return $this->date_publication;
     }
 
-    public function setDatePublication(\DateTimeImmutable $date_publication): static
+    public function setDatePublication(?\DateTimeImmutable $date_publication): static
     {
         $this->date_publication = $date_publication;
 

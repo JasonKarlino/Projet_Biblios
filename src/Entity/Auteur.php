@@ -24,7 +24,7 @@ class Auteur
     #[ORM\Column]
     private ?\DateTimeImmutable $date_naissance = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $date_deces = null;
 
     #[ORM\Column(length: 255, nullable: true)]
