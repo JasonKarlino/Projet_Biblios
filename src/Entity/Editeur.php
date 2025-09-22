@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\EditeurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EditeurRepository::class)]
@@ -15,12 +16,16 @@ class Editeur
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\Length(
+        min: 10,
+        max: 50,
+        minMessage: 'Le nom de l\'éditeur doit comporter au moins {{ limit }} caractères.',
+        maxMessage: 'Le nom de l\'éditeur ne peut pas dépasser {{ limit }} caractères.'
+    )]
+    #[Assert\NotBlank(message: 'Le nom de l\'éditeur ne peut pas être vide.')]
     #[ORM\Column(length: 255)]
-    private ?string $nom = null;
+    private ?string $nomPrenom = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $prenoms = null;
- 
     /**
      * @var Collection<int, Livre>
      */
@@ -37,29 +42,18 @@ class Editeur
         return $this->id;
     }
 
-    public function getNom(): ?string
+    public function getNomPrenom(): ?string
     {
-        return $this->nom;
+        return $this->nomPrenom;
     }
 
-    public function setNom(string $nom): static
+    public function setNomPrenom(string $nom): static
     {
-        $this->nom = $nom;
+        $this->nomPrenom = $nom;
 
         return $this;
     }
 
-    public function getPrenoms(): ?string
-    {
-        return $this->prenoms;
-    }
-
-    public function setPrenoms(string $prenoms): static
-    {
-        $this->prenoms = $prenoms;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Livre>

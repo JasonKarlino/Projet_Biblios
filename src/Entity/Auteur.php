@@ -2,11 +2,15 @@
 
 namespace App\Entity;
 
+use App\Enum\NationaliteEnum;
 use App\Repository\AuteurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
+#[UniqueEntity(fields: ['nomPrenom'], message: 'Un auteur avec ce nom existe déjà.')]
 #[ORM\Entity(repositoryClass: AuteurRepository::class)]
 class Auteur
 {
@@ -15,20 +19,26 @@ class Auteur
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\Length(
+        min: 10,
+        max: 50,
+        minMessage: 'Le nom de l\'auteur doit comporter au moins {{ limit }} caractères.',
+        maxMessage: 'Le nom de l\'auteur ne peut pas dépasser {{ limit }} caractères.'
+    )]
+    #[Assert\NotBlank(message: 'Le nom de l\'auteur ne peut pas être vide.')]
     #[ORM\Column(length: 255)]
-    private ?string $nom = null;
+    private ?string $nomPrenom = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $prenoms = null;
-
-    #[ORM\Column]
+    #[Assert\NotBlank(message: 'La date de naissance ne peut pas être vide.')]
+    #[ORM\Column(type: 'datetime_immutable')]
     private ?\DateTimeImmutable $date_naissance = null;
 
-    #[ORM\Column(nullable: true)]
+    #[Assert\GreaterThan(propertyPath: 'date_naissance')]
+    #[ORM\Column(nullable: true, type: 'datetime_immutable')]
     private ?\DateTimeImmutable $date_deces = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $nationalite = null;
+    private ?NationaliteEnum $nationalite = null;
 
     /**
      * @var Collection<int, Livre>
@@ -46,26 +56,14 @@ class Auteur
         return $this->id;
     }
 
-    public function getNom(): ?string
+    public function getNomPrenom(): ?string
     {
-        return $this->nom;
+        return $this->nomPrenom;
     }
 
-    public function setNom(string $nom): static
+    public function setNomPrenom(string $nom): static
     {
-        $this->nom = $nom;
-
-        return $this;
-    }
-
-    public function getPrenoms(): ?string
-    {
-        return $this->prenoms;
-    }
-
-    public function setPrenoms(string $prenoms): static
-    {
-        $this->prenoms = $prenoms;
+        $this->nomPrenom = $nom;
 
         return $this;
     }
@@ -94,12 +92,12 @@ class Auteur
         return $this;
     }
 
-    public function getNationalite(): ?string
+    public function getNationalite(): ?NationaliteEnum
     {
         return $this->nationalite;
     }
 
-    public function setNationalite(string $nationalite): static
+    public function setNationalite(NationaliteEnum $nationalite): static
     {
         $this->nationalite = $nationalite;
 

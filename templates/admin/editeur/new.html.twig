@@ -12,7 +12,8 @@
     <h1>Ajout d'Editeur</h1>
 
     {{ form_start(form) }}
-    {{ form_widget(form) }}
+    {{ form_row(form.nomPrenom, {label: 'Nom et Prénoms'}) }}
+    {{ form_row(form.livres, label: 'Livres') }}
     {{ form_end(form) }}
     
 </div>

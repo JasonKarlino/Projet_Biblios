@@ -6,6 +6,7 @@ use App\Enum\LivreStatus;
 use App\Repository\LivreRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LivreRepository::class)]
@@ -16,24 +17,53 @@ class Livre
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\Length(
+        min: 1,
+        max: 100,
+        minMessage: 'Le titre doit contenir au moins {{ limit }} caractères',
+        maxMessage: 'Le titre ne peut pas contenir plus de {{ limit }} caractères',
+    )]
+    #[Assert\NotBlank(message: 'Le titre ne peut pas être vide')]
     #[ORM\Column(length: 255)]
     private ?string $titre = null;
 
+    #[Assert\Url(message: "L'URL de l'image n'est pas valide")]
+    #[Assert\NotBlank(message: "L'URL de l'image ne peut pas être vide")]
     #[ORM\Column(length: 255)]
     private ?string $image = null;
 
+    #[Assert\Length(
+        min: 10,
+        max: 13,
+        minMessage: "Le numéro ISBN doit contenir au moins {{ limit }} caractères",
+        maxMessage: "Le numéro ISBN ne peut pas contenir plus de {{ limit }} caractères",
+    )]
+    #[Assert\NotBlank(message: "Le numéro ISBN ne peut pas être vide")]
     #[ORM\Column(length: 255)]
     private ?string $numeroISBN = null;
 
+    #[Assert\NotBlank(message: 'La date de sortie ne peut pas être vide')]
+    #[Assert\Type(\DateTimeImmutable::class, message: 'La date de sortie doit être une date valide')]
     #[ORM\Column]
     private ?\DateTimeImmutable $date_sortie = null;
 
+    #[Assert\Type('integer', message: 'Le nombre de pages doit être un entier')]
+    #[Assert\Positive(message: 'Le nombre de pages doit être un entier positif')]
+    #[Assert\NotBlank(message: 'Le nombre de pages ne peut pas être vide')]
     #[ORM\Column] 
     private ?int $nombrePages = null;
 
-    #[ORM\Column(length: 500)]
+    #[Assert\Length(
+        min: 50,
+        max: 5000,
+        minMessage: 'Le synopsis doit contenir au moins {{ limit }} caractères',
+        maxMessage: 'Le synopsis ne peut pas contenir plus de {{ limit }} caractères',
+    )]
+    #[Assert\NotBlank(message: 'Le synopsis ne peut pas être vide')]
+    #[ORM\Column(length: 5000)]
     private ?string $synopsis = null;
 
+    #[Assert\NotBlank(message: 'Le statut du livre ne peut pas être vide')]
     #[ORM\Column(length: 255)]
     private ?LivreStatus $statut = null;
 

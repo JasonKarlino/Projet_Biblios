@@ -3,11 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Editeur;
-use App\Entity\Livre as Entity;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Livre;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,23 +16,19 @@ class EditeurType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nom', TextType::class, [
-                'label' => 'Nom de l\'éditeur',
-            ])
-            ->add('prenoms', TextType::class, [
-                'label' => 'Prénoms de l\'éditeur',
+            ->add('nomPrenom', TextType::class, [
+                'label' => 'Nom et Prénoms de l\'éditeur',
             ])
             ->add('livres', EntityType::class, [
-                'label' => 'Livres',
-                'class' => Entity::class,
-                'choice_label' => 'id',
+                'class' => Livre::class,
+                'choice_label' => 'titre',
                 'multiple' => true,
+                'label' => 'Livres',
                 'required' => false,
             ])
-            ->add('Ajouter', SubmitType::class, [
-                'label' => 'Ajouter',
-                'attr' => ['class' => 'btn btn-primary mt-3'],
-            ]) 
+            ->add('ajouter', SubmitType::class, [
+                'label' => 'Enregistrer',
+            ])
         ;
     }
 
