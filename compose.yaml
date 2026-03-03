@@ -4,10 +4,12 @@ services:
   database:
     image: postgres:${POSTGRES_VERSION:-16}-alpine
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
+      POSTGRES_DB: ${POSTGRES_DB:-biblios_manager_db}
       # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-MozCapJas200430}
+      POSTGRES_USER: ${POSTGRES_USER:-biblios_manager_user}
+    ports:
+      - "5434:5432"
     healthcheck:
       test: ["CMD", "pg_isready", "-d", "${POSTGRES_DB:-app}", "-U", "${POSTGRES_USER:-app}"]
       timeout: 5s

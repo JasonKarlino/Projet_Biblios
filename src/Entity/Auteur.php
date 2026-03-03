@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\NationaliteEnum;
 use App\Repository\AuteurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -16,26 +17,24 @@ class Auteur
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $nom = null;
+    private ?string $nomPrenom = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $prenoms = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $date_naissance = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true )]
     private ?\DateTimeImmutable $date_deces = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $nationalite = null;
+    private ?NationaliteEnum $nationalite = null;
 
     /**
      * @var Collection<int, Livre>
      */
     #[ORM\ManyToMany(targetEntity: Livre::class, inversedBy: 'auteurs')]
     private Collection $livres;
-
+ 
     public function __construct()
     {
         $this->livres = new ArrayCollection();
@@ -46,29 +45,17 @@ class Auteur
         return $this->id;
     }
 
-    public function getNom(): ?string
+    public function getNomPrenom(): ?string
     {
-        return $this->nom;
+        return $this->nomPrenom;
     }
 
-    public function setNom(string $nom): static
+    public function setNomPrenom(string $nomPrenom): static
     {
-        $this->nom = $nom;
+        $this->nomPrenom = $nomPrenom;
 
         return $this;
-    }
-
-    public function getPrenoms(): ?string
-    {
-        return $this->prenoms;
-    }
-
-    public function setPrenoms(string $prenoms): static
-    {
-        $this->prenoms = $prenoms;
-
-        return $this;
-    }
+    } 
 
     public function getDateNaissance(): ?\DateTimeImmutable
     {
@@ -87,19 +74,19 @@ class Auteur
         return $this->date_deces;
     }
 
-    public function setDateDeces(\DateTimeImmutable $date_deces): static
+    public function setDateDeces(?\DateTimeImmutable $date_deces): static
     {
         $this->date_deces = $date_deces;
 
         return $this;
     }
 
-    public function getNationalite(): ?string
+    public function getNationalite(): ?NationaliteEnum
     {
         return $this->nationalite;
     }
 
-    public function setNationalite(string $nationalite): static
+    public function setNationalite(NationaliteEnum $nationalite): static
     {
         $this->nationalite = $nationalite;
 

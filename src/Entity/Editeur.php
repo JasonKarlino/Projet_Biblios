@@ -10,16 +10,14 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: EditeurRepository::class)]
 class Editeur
 {
-    #[ORM\Id]
+    #[ORM\Id] 
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $nom = null;
+    private ?string $nomPrenom = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $prenoms = null;
 
     /**
      * @var Collection<int, Livre>
@@ -37,30 +35,18 @@ class Editeur
         return $this->id;
     }
 
-    public function getNom(): ?string
+    public function getNomPrenom(): ?string
     {
-        return $this->nom;
+        return $this->nomPrenom;
     }
 
-    public function setNom(string $nom): static
+    public function setNomPrenom(string $nomPrenom): static
     {
-        $this->nom = $nom;
+        $this->nomPrenom = $nomPrenom;
 
         return $this;
     }
-
-    public function getPrenoms(): ?string
-    {
-        return $this->prenoms;
-    }
-
-    public function setPrenoms(string $prenoms): static
-    {
-        $this->prenoms = $prenoms;
-
-        return $this;
-    }
-
+ 
     /**
      * @return Collection<int, Livre>
      */

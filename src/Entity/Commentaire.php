@@ -61,7 +61,7 @@ class Commentaire
     public function setMailAuteur(string $mailAuteur): static
     {
         $this->mailAuteur = $mailAuteur;
-
+ 
         return $this;
     }
 
