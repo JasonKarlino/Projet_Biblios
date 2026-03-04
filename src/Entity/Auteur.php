@@ -6,6 +6,7 @@ use App\Enum\NationaliteEnum;
 use App\Repository\AuteurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AuteurRepository::class)]
@@ -17,16 +18,29 @@ class Auteur
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le nom et prénom de l'auteur ne peut pas être vide.")]
+    #[Assert\Length(
+        min: 3,
+        max: 255,
+        minMessage: "Le nom et prénom de l'auteur doit comporter au moins {{ limit }} caractères.",
+        maxMessage: "Le nom et prénom de l'auteur ne peut pas dépasser {{ limit }} caractères."
+    )]
     private ?string $nomPrenom = null;
 
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: "La date de naissance de l'auteur ne peut pas être vide.")]
+    #[Assert\LessThan("today", message: "La date de naissance doit être antérieure à aujourd'hui.")]
+    #[Assert\Type("\DateTimeInterface", message: "La date de naissance doit être une date valide.")]
     private ?\DateTimeImmutable $date_naissance = null;
 
     #[ORM\Column(nullable: true )]
+    #[Assert\Type("\DateTimeInterface", message: "La date de décès doit être une date valide.")]
+    #[Assert\GreaterThan(propertyPath: "date_naissance", message: "La date de décès doit être postérieure à la date de naissance.")]
     private ?\DateTimeImmutable $date_deces = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "La nationalité de l'auteur ne peut pas être vide.")]
     private ?NationaliteEnum $nationalite = null;
 
     /**

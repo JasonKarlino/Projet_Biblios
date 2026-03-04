@@ -11,7 +11,7 @@
 <div class="example-wrapper">
     <h1>Nouvel éditeur</h1>
 
-    {{ form_start(form) }}
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}} ) }}
     {{ form_row(form.nomPrenom, {'label': 'Nom et prénom de l\'éditeur'}) }}
     {{ form_row(form.livres, {'label': 'Livres de l\'éditeur'}) }}
     <button class="btn btn-primary">Enregistrer l'éditeur</button>

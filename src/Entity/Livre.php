@@ -6,6 +6,7 @@ use App\Repository\LivreRepository;
 use App\Enum\LivreStatus;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LivreRepository::class)]
@@ -17,24 +18,69 @@ class Livre
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le titre ne peut pas être vide.")]
+    #[Assert\Length(
+        min: 3,
+        max: 255,
+        minMessage: "Le titre doit comporter au moins {{ limit }} caractères.",
+        maxMessage: "Le titre ne peut pas dépasser {{ limit }} caractères."
+    )]
     private ?string $titre = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "L'image du livre ne peut pas être vide.")]
+    #[Assert\Length(
+        min: 3,
+        max: 255,
+        minMessage: "L'image du livre doit comporter au moins {{ limit }} caractères.",
+        maxMessage: "L'image du livre ne peut pas dépasser {{ limit }} caractères."
+    )]
     private ?string $image = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le numéro ISBN du livre ne peut pas être vide.")]
+    #[Assert\Length(
+        min: 10,
+        max: 13,
+        minMessage: "Le numéro ISBN doit comporter au moins {{ limit }} caractères.",
+        maxMessage: "Le numéro ISBN ne peut pas dépasser {{ limit }} caractères."
+    )]
+    #[Assert\Type(
+        type: 'isbn',
+        message: "Le numéro ISBN doit être un format valide."
+    )]
     private ?string $numeroISBN = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: "La date de sortie du livre ne peut pas être vide.")]
+    #[Assert\LessThanOrEqual(
+        value: "today",
+        message: "La date de sortie doit être une date passée ou aujourd'hui."
+    )]
     private ?\DateTimeImmutable $date_sortie = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: "Le nombre de pages du livre ne peut pas être vide.")]
+    #[Assert\Positive(message: "Le nombre de pages doit être un nombre positif.")]
+    #[Assert\LessThanOrEqual(
+        value: 10000,
+        message: "Le nombre de pages ne peut pas dépasser {{ compared_value }}."
+    )]
+    #[Assert\Type(
+        type: 'integer',
+        message: "Le nombre de pages doit être un nombre entier."
+    )]
     private ?int $nombre_pages = null;
 
     #[ORM\Column(length: 500)]
+    #[Assert\Length(
+        max: 500,
+        maxMessage: "Le synopsis ne peut pas dépasser {{ limit }} caractères."
+    )]
     private ?string $synopsis = null;
 
     #[ORM\Column(enumType: LivreStatus::class)]
+    #[Assert\NotBlank(message: "Le statut du livre ne peut pas être vide.")]
     private ?LivreStatus $statut = null;
 
     #[ORM\ManyToOne(inversedBy: 'livres')]

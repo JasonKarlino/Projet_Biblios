@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\EditeurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EditeurRepository::class)]
@@ -16,6 +17,13 @@ class Editeur
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le nom de l\'éditeur est obligatoire.')]
+    #[Assert\Length(
+        min: 5,
+        max: 100,
+        minMessage: 'Le nom de l\'éditeur doit comporter au moins 5 caractères.',
+        maxMessage: 'Le nom de l\'éditeur ne peut pas dépasser 100 caractères.'
+    )]
     private ?string $nomPrenom = null;
 
 
