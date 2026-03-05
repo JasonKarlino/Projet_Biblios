@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello EditeurController!{% endblock %}
+{% block title %}{% endblock %}
 
 {% block body %}
 <style>
@@ -9,12 +9,22 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/jason-karl/Documents/Symfony/Projets_Symfony/biblios/src/Controller/Admin/EditeurController.php</code></li>
-        <li>Your template at <code>/home/jason-karl/Documents/Symfony/Projets_Symfony/biblios/templates/admin/editeur/index.html.twig</code></li>
-    </ul>
+    <h1>Liste d'éditeurs</h1>
+        <ul class="list-group list-group-flush">
+            {% for editeur in editeurs %}
+                <div class="card mb-1">
+                    <div class="card-body">
+                        <div class="card-title d-flex justify-content-between">
+                            <a href="{{ path('app_admin_editeur_show', {id: editeur.id}) }}" class="stretched-link link-dark">
+                                <h4 class="mb-1">{{ editeur.nomPrenom }}</h4>
+                            </a>
+                            <small class="text-muted">Identifiant : {{ editeur.id }}</small>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <li>Aucun éditeur trouvé.</li>
+            {% endfor %}
+        </ul>
 </div>
 {% endblock %}

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AuteurController!{% endblock %}
+{% block title %}{% endblock %}
 
 {% block body %}
 <style>
@@ -9,12 +9,23 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <h1>Liste des auteurs</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/jason-karl/Documents/Symfony/Projets_Symfony/biblios/src/Controller/Admin/AuteurController.php</code></li>
-        <li>Your template at <code>/home/jason-karl/Documents/Symfony/Projets_Symfony/biblios/templates/admin/auteur/index.html.twig</code></li>
+    <ul class="list-group list-group-flush">
+        {% for auteur in auteurs %}
+                <div class="card mb-1">
+                    <div class="card-body">
+                        <div class="card-title d-flex justify-content-between">
+                            <a href="{{ path('app_admin_auteur_show', {'id': auteur.id}) }}" class="stretched-link link-dark">
+                                <h4 class="mb-1">{{ auteur.nomPrenom }}</h4>
+                            </a>
+                            <small class="text-muted">Identifiant : {{ auteur.id }}</small>
+                        </div>
+                    </div>
+                </div>
+        {% else %}
+            <li>Aucun auteur trouvé.</li>
+        {% endfor %}
     </ul>
 </div>
 {% endblock %}

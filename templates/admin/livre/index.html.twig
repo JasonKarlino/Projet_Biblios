@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello LivreController!{% endblock %}
+{% block title %}{% endblock %}
 
 {% block body %}
 <style>
@@ -9,12 +9,19 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <h1>Liste des livres</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/jason-karl/Documents/Symfony/Projets_Symfony/biblios/src/Controller/Admin/LivreController.php</code></li>
-        <li>Your template at <code>/home/jason-karl/Documents/Symfony/Projets_Symfony/biblios/templates/admin/livre/index.html.twig</code></li>
-    </ul>
+    {% for livre in livres %}
+                <div class="card mb-1">
+                    <div class="card-body">
+                        <div class="card-title d-flex justify-content-between">
+                            <h4 class="mb-1">{{ livre.titre }}</h4>
+                            <small class="text-muted">Identifiant : {{ livre.id }}</small>
+                        </div>
+                    </div>
+                </div>
+    {% else %}
+        <li>Aucun livre trouvé.</li>
+    {% endfor %}
 </div>
 {% endblock %}
