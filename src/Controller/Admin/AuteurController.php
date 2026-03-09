@@ -10,15 +10,21 @@ use App\Form\AuteurType;
 use App\Repository\AuteurRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
+use Pagerfanta\Pagerfanta;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
 
 #[Route('/admin/auteur')]
 final class AuteurController extends AbstractController
 {
 
-    #[Route('', name: 'app_admin_auteur')]
-    public function index(AuteurRepository $auteurRepository): Response
+    #[Route('', name: 'app_admin_auteur_index', methods: ['GET'])]
+    public function index(AuteurRepository $auteurRepository, Request $request): Response
     {
-        $auteurs = $auteurRepository->findAll();
+         $auteurs = Pagerfanta::createForCurrentPageWithMaxPerPage(
+            new QueryAdapter($auteurRepository->createQueryBuilder('a')),
+            $request->query->get('page', 1),
+            10
+        );
 
         return $this->render('admin/auteur/index.html.twig', [
             'auteurs' => $auteurs,
@@ -26,18 +32,18 @@ final class AuteurController extends AbstractController
     }
 
     #[Route('/new', name: 'app_admin_auteur_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/{id}/edit', name: 'app_admin_auteur_edit', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
+    public function new(?Auteur $auteur, Request $request, EntityManagerInterface $entityManager): Response
     {        
-        $auteur = new Auteur();
+        $auteur ??= new Auteur();
         $form = $this->createForm(AuteurType::class, $auteur);
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
-            $auteur = $form->getData();
             $entityManager->persist($auteur);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_admin_auteur_new');
+            return $this->redirectToRoute('app_admin_auteur_index');
         }
         return $this->render('admin/auteur/new.html.twig', [
         'form' => $form->createView(),]);

@@ -2,51 +2,57 @@
 
 namespace App\Controller\Admin;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Editeur;
 use App\Form\EditeurType;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\EditeurRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Pagerfanta\Pagerfanta;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin/editeur')]
-final class EditeurController extends AbstractController
+class EditeurController extends AbstractController
 {
-    #[Route('', name: 'app_admin_editeur')]
-    public function index(EditeurRepository $editeurRepository): Response
+    #[Route('', name: 'app_admin_editeur_index', methods: ['GET'])]
+    public function index(Request $request, EditeurRepository $repository): Response
     {
-        $editeurs = $editeurRepository->findAll();
+        $editeurs = Pagerfanta::createForCurrentPageWithMaxPerPage(
+            new QueryAdapter($repository->createQueryBuilder('e')),
+            $request->query->get('page', 1),
+            10
+        );
 
         return $this->render('admin/editeur/index.html.twig', [
-            'controller_name' => 'EditeurController',
-            'editeurs' => $editeurs,
+            'editeurs' => $editeurs
         ]);
     }
 
     #[Route('/new', name: 'app_admin_editeur_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {       
-        $editeur = new Editeur();
+    #[Route('/{id}/edit', name: 'app_admin_editeur_edit', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
+    public function new(?Editeur $editeur, Request $request, EntityManagerInterface $manager): Response
+    {
+        $editeur ??= new Editeur();
         $form = $this->createForm(EditeurType::class, $editeur);
+
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
-            $editeur = $form->getData();
-            $entityManager->persist($editeur);
-            $entityManager->flush();
+            $manager->persist($editeur);
+            $manager->flush();
 
-            return $this->redirectToRoute('app_admin_editeur_new');
+            return $this->redirectToRoute('app_admin_editeur_show', ['id' => $editeur->getId()]);
         }
-            
+
         return $this->render('admin/editeur/new.html.twig', [
-            'form' => $form->createView(),
+            'form' => $form,
         ]);
     }
 
     #[Route('/{id}', name: 'app_admin_editeur_show', requirements: ['id' => '\d+'], methods: ['GET'])]
-    public function show(Editeur $editeur): Response{
+    public function show(?Editeur $editeur): Response
+    {
         return $this->render('admin/editeur/show.html.twig', [
             'editeur' => $editeur,
         ]);

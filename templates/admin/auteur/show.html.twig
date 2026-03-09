@@ -1,15 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% endblock %}
+{% block title %}Auteur{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<section class="container px-4">
+    <h1>Auteur : </h1>
 
-<div class="example-wrapper">
-    <h1>Éditeur : {{ auteur.nomPrenom }}</h1>
     {% if auteur is not null %}
         <div class="card mb-1 m-auto">
             <div class="card-body">
@@ -19,16 +15,17 @@
                 </div>
                 <div class="d-flex justify-content-between card-text">
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Date de naissance : {{ auteur.getDateNaissance() | date('d/m/Y') }}</li>
-                        <li class="list-group-item">Date de décès : {{ auteur.getDateDeces() is not null ? auteur.getDateDeces() | date('d/m/Y') : '-' }}</li>
+                        <li class="list-group-item">Date de naissance : {{ auteur.getDateNaissance()|date('d M Y') }}</li>
+                        <li class="list-group-item">Date de décès : {{ auteur.getDateDeces() is not null ? auteur.getDateDeces()|date('d M Y') : '-' }}</li>
                     </ul>
                     <p><small>Nationalité : {{ auteur.getNationalite().getLabel() }}</small></p>
                 </div>
             </div>
         </div>
     {% else %}
-        <div>Éditeur non trouvé</div>
+        <div>Auteur non trouvé</div>
     {% endif %}
-    <a href="{{ path('app_admin_auteur') }}" class="btn btn-primary">Retour à la liste</a>
-</div>
+    <a href="{{ path('app_admin_auteur_index') }}" class="btn btn-primary">Retour</a>
+    <a href="{{ path('app_admin_auteur_edit', {id: auteur.id}) }}" class="btn btn-warning">Éditer</a>
+</section>
 {% endblock %}
