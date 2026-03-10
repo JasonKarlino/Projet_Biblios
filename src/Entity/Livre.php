@@ -29,12 +29,7 @@ class Livre
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "L'image du livre ne peut pas être vide.")]
-    #[Assert\Length(
-        min: 3,
-        max: 255,
-        minMessage: "L'image du livre doit comporter au moins {{ limit }} caractères.",
-        maxMessage: "L'image du livre ne peut pas dépasser {{ limit }} caractères."
-    )]
+    #[Assert\Url(message: "L'image doit être une URL valide.")]
     private ?string $image = null;
 
     #[ORM\Column(length: 255)]
@@ -45,9 +40,9 @@ class Livre
         minMessage: "Le numéro ISBN doit comporter au moins {{ limit }} caractères.",
         maxMessage: "Le numéro ISBN ne peut pas dépasser {{ limit }} caractères."
     )]
-    #[Assert\Type(
-        type: 'isbn',
-        message: "Le numéro ISBN doit être un format valide."
+    #[Assert\Isbn(
+        type: Assert\Isbn::ISBN_10 | Assert\Isbn::ISBN_13,
+        message: "Le numéro ISBN doit être un ISBN-10 ou ISBN-13 valide."
     )]
     private ?string $numeroISBN = null;
 
@@ -96,7 +91,7 @@ class Livre
     /**
      * @var Collection<int, Auteur>
      */
-    #[ORM\ManyToMany(targetEntity: Auteur::class, mappedBy: 'livre')]
+    #[ORM\ManyToMany(targetEntity: Auteur::class, mappedBy: 'livres')]
     private Collection $auteurs;
 
     public function __construct()
