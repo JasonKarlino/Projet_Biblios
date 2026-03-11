@@ -47,12 +47,12 @@ class Livre
     private ?string $numeroISBN = null;
 
     #[ORM\Column]
-    #[Assert\NotBlank(message: "La date de sortie du livre ne peut pas être vide.")]
+    #[Assert\NotBlank(message: "La date d'édition du livre ne peut pas être vide.")]
     #[Assert\LessThanOrEqual(
         value: "today",
-        message: "La date de sortie doit être une date passée ou aujourd'hui."
+        message: "La date d'édition doit être une date passée ou aujourd'hui."
     )]
-    private ?\DateTimeImmutable $date_sortie = null;
+    private ?\DateTimeImmutable $dateEdition = null;
 
     #[ORM\Column]
     #[Assert\NotBlank(message: "Le nombre de pages du livre ne peut pas être vide.")]
@@ -141,14 +141,15 @@ class Livre
         return $this;
     }
 
-    public function getDateSortie(): ?\DateTimeImmutable
+    public function getDateEdition(): ?\DateTimeImmutable
     {
-        return $this->date_sortie;
+        return $this->dateEdition;
     }
 
-    public function setDateSortie(\DateTimeImmutable $date_sortie): static
+
+    public function setDateEdition(\DateTimeImmutable $dateEdition): static
     {
-        $this->date_sortie = $date_sortie;
+        $this->dateEdition = $dateEdition;
 
         return $this;
     }

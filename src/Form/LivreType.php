@@ -36,11 +36,11 @@ class LivreType extends AbstractType
                     'placeholder' => 'Entrez le numéro ISBN du livre',
                 ],
             ])
-            ->add('date_sortie', DateType::class, [
+            ->add('dateEdition', DateType::class, [
                 'input' => 'datetime_immutable',
                 'widget' => 'single_text',
                 'attr' => [
-                    'placeholder' => 'Sélectionnez la date de sortie du livre',
+                    'placeholder' => 'Sélectionnez la date d\'édition du livre',
                 ],
             ])
             ->add('nombre_pages', NumberType::class, [

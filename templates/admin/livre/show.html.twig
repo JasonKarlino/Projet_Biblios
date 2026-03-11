@@ -15,7 +15,7 @@
                 </div>
                 <div class="d-flex justify-content-between card-text">
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><h5>Date d'édition : </h5>{{ livre.getDateSortie()|date('d M Y') }}</li>
+                        <li class="list-group-item"><h5>Date d'édition : </h5>{{ livre.getDateEdition()|date('d M Y') }}</li>
                         <li class="list-group-item"><h5>ISBN : </h5>{{ livre.getNumeroISBN() }}</li>
                         <li class="list-group-item">
                             <h5>Auteur : </h5>
