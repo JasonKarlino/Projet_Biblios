@@ -6,15 +6,34 @@
 {% block title %}{{ action }} d'éditeur{% endblock %}
 
 {% block body %}
-<section class="container px-4">
-    <div class="w-50 m-auto">
-        <h1>{{ action }} d'éditeur</h1>
+<section class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white text-center py-3">
+                    <h1 class="h4 mb-0 fw-normal">{{ action }} d'éditeur</h1>
+                </div>
+                <div class="card-body p-4">
+                    {{ form_errors(form) }}
 
-        {{ form_start(form) }}
-        {{ form_row(form.nomPrenom, {label: 'Nom et prénoms'}) }}
-        {{ form_row(form.livres, {label: 'Livres'}) }}
-        <button type="submit" class="btn btn-primary">Envoyer</button>
-        {{ form_end(form) }}
+                    {{ form_start(form) }}
+                        <div class="mb-3">
+                            {{ form_row(form.nomPrenom, {label: 'Nom et prénoms'}) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_row(form.livres, {label: 'Livres'}) }}
+                        </div>
+                        
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">Enregistrer</button>
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+            {#<div class="text-center mt-3">
+                <a href="{{ path('app_admin_editeur_index') }}" class="text-muted">Retour à la liste</a>
+            </div>#}
+        </div>
     </div>
 </section>
 {% endblock %}

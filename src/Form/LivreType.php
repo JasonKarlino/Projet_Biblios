@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -35,6 +36,7 @@ class LivreType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Entrez le numéro ISBN du livre',
                 ],
+                'required' => false,
             ])
             ->add('dateEdition', DateType::class, [
                 'input' => 'datetime_immutable',
@@ -58,6 +60,25 @@ class LivreType extends AbstractType
                 'choice_label' => fn(LivreStatus $choice) => $choice->getLabel(),
                 'attr' => [
                     'placeholder' => 'Sélectionnez un statut',
+                ],
+                'expanded' => false,
+                'multiple' => false,
+            ])
+            ->add('etat', ChoiceType::class, [
+                'choices' => [
+                    'Neuf' => 'Neuf',
+                    'Bon état' => 'Bon état',
+                    'État moyen' => 'État moyen',
+                    'Mauvais état' => 'Mauvais état',
+                    'Abîmé' => 'Abîmé',
+                ],
+                'placeholder' => 'Sélectionnez un état',
+                'multiple' => false,
+                'expanded' => false,
+            ])
+            ->add('prix', NumberType::class, [
+                'attr' => [
+                    'placeholder' => 'Entrez le prix du livre',
                 ],
             ])
             ->add('editeur', EntityType::class, [

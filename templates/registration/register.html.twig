@@ -3,31 +3,42 @@
 {% block title %}S'inscrire{% endblock %}
 
 {% block body %}
-<section class="container px-4">
-    <h1>S'inscrire</h1>
-
-    {{ form_errors(registrationForm) }}
-
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.firstName, {
-            label: 'Prénom'
-        }) }}
-        {{ form_row(registrationForm.lastName, {
-            label: 'Nom'
-        }) }}
-        {{ form_row(registrationForm.username, {
-            label: 'Nom d\'utilisateur'
-        }) }}
-        {{ form_row(registrationForm.email, {
-            label: 'Email'
-        }) }}
-        {{ form_row(registrationForm.roles, {
-            label: 'Rôle'
-        }) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Mot de passe'
-        }) }}
-        <button type="submit" class="btn btn-primary">S'inscrire</button>
-    {{ form_end(registrationForm) }}
+<section class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white text-center py-3">
+                    <h1 class="h4 mb-0 fw-normal">S'inscrire</h1>
+                </div>
+                <div class="card-body p-4">
+                    {{ form_errors(registrationForm) }}
+                    {{ form_start(registrationForm) }}
+                        <div class="mb-3">
+                            {{ form_row(registrationForm.firstName, { label: 'Prénom' }) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_row(registrationForm.lastName, { label: 'Nom' }) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_row(registrationForm.username, { label: 'Nom d\'utilisateur' }) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_row(registrationForm.email, { label: 'Email' }) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_row(registrationForm.roles, { label: 'Rôle' }) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_row(registrationForm.plainPassword, { label: 'Mot de passe' }) }}
+                        </div>
+                        
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">S'inscrire</button>
+                        </div>
+                    {{ form_end(registrationForm) }}
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 {% endblock %}

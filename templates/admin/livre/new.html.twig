@@ -5,22 +5,69 @@
 {% block title %}{{ action }} d'un livre{% endblock %}
 
 {% block body %}
-<section class="container px-4">
-    <div class="w-50 m-auto">
-        <h1>{{ action }} d'un livre</h1>
+<section class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white text-center py-3">
+                    <h1 class="h4 mb-0 fw-normal">{{ action }} d'un livre</h1>
+                </div>
+                <div class="card-body p-4">
+                    {{ form_errors(form) }}
 
-        {{ form_start(form) }}
-            {{ form_row(form.titre, {'label': 'Titre '}) }}
-            {{ form_row(form.image, {'label': 'Image '}) }}
-            {{ form_row(form.numeroISBN, {'label': 'Numéro ISBN '}) }}
-            {{ form_row(form.dateEdition, {'label': 'Date d\'édition '}) }}
-            {{ form_row(form.nombre_pages, {'label': 'Nombre de pages '}) }}
-            {{ form_row(form.synopsis, {'label': 'Synopsis '}) }}
-            {{ form_row(form.statut, {'label': 'Statut '}) }}
-            {{ form_row(form.editeur, {'label': 'Éditeur '}) }}
-            {{ form_row(form.auteurs, {'label': 'Auteurs '}) }}
-            <button type="submit" class="btn btn-primary">Enregistrer</button>
-        {{ form_end(form) }}
+                    {{ form_start(form) }}
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                {{ form_row(form.titre, {'label': 'Titre '}) }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form_row(form.prix, {'label': 'Prix '}) }}
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            {{ form_row(form.image, {'label': 'Image (URL) '}) }}
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                {{ form_row(form.numeroISBN, {'label': 'Numéro ISBN '}) }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form_row(form.dateEdition, {'label': 'Date d\'édition '}) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                {{ form_row(form.nombre_pages, {'label': 'Nombre de pages '}) }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form_row(form.statut, {'label': 'Statut '}) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                {{ form_row(form.etat, {'label': 'État '}) }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form_row(form.editeur, {'label': 'Éditeur '}) }}
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            {{ form_row(form.auteurs, {'label': 'Auteurs '}) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_row(form.synopsis, {'label': 'Synopsis '}) }}
+                        </div>
+                        
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">Enregistrer le livre</button>
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+            {#<div class="text-center mt-3">
+                <a href="{{ path('app_admin_livre_index') }}" class="text-muted">Retour au catalogue</a>
+            </div>#}
+        </div>
     </div>
 </section>
 {% endblock %}

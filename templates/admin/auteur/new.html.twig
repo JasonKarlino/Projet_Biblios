@@ -5,18 +5,43 @@
 {% block title %}{{ action }} d'auteur{% endblock %}
 
 {% block body %}
-<section class="container px-4">
-    <div class="w-50 m-auto">
-        <h1>{{ action }} d'auteur</h1>
+<section class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white text-center py-3">
+                    <h1 class="h4 mb-0 fw-normal">{{ action }} d'auteur</h1>
+                </div>
+                <div class="card-body p-4">
+                    {{ form_errors(form) }}
 
-        {{ form_start(form) }}
-            {{ form_row(form.nomPrenom, {'label': 'Nom et prénom de l\'auteur'}) }}
-            {{ form_row(form.date_naissance, {'label': 'Date de naissance de l\'auteur'}) }}
-            {{ form_row(form.date_deces, {'label': 'Date de décès de l\'auteur'}) }}
-            {{ form_row(form.nationalite, {'label': 'Nationalité de l\'auteur'}) }}
-            {{ form_row(form.livres, {'label': 'Livres de l\'auteur'}) }}
-                <button class="btn btn-primary">Enregistrer</button>
-        {{ form_end(form) }}
+                    {{ form_start(form) }}
+                        <div class="mb-3">
+                            {{ form_row(form.nomPrenom, {'label': 'Nom et prénom de l\'auteur'}) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_row(form.date_naissance, {'label': 'Date de naissance de l\'auteur'}) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_row(form.date_deces, {'label': 'Date de décès de l\'auteur'}) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_row(form.nationalite, {'label': 'Nationalité de l\'auteur'}) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_row(form.livres, {'label': 'Livres de l\'auteur'}) }}
+                        </div>
+                        
+                        <div class="d-grid mt-4">
+                            <button class="btn btn-primary btn-lg">Enregistrer</button>
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+            {#<div class="text-center mt-3">
+                <a href="{{ path('app_admin_auteur_index') }}" class="text-muted">Retour à la liste</a>
+            </div>#}
+        </div>
     </div>
 </section>
 {% endblock %}

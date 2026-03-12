@@ -32,8 +32,7 @@ class Livre
     #[Assert\Url(message: "L'image doit être une URL valide.")]
     private ?string $image = null;
 
-    #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: "Le numéro ISBN du livre ne peut pas être vide.")]
+    #[ORM\Column(length: 255, nullable : true)]
     #[Assert\Length(
         min: 10,
         max: 13,
@@ -67,9 +66,9 @@ class Livre
     )]
     private ?int $nombre_pages = null;
 
-    #[ORM\Column(length: 500)]
+    #[ORM\Column(length: 2000)]
     #[Assert\Length(
-        max: 500,
+        max: 2000,
         maxMessage: "Le synopsis ne peut pas dépasser {{ limit }} caractères."
     )]
     private ?string $synopsis = null;
@@ -93,6 +92,19 @@ class Livre
      */
     #[ORM\ManyToMany(targetEntity: Auteur::class, mappedBy: 'livres')]
     private Collection $auteurs;
+
+    #[ORM\Column(length: 255, nullable: false)]
+    #[Assert\NotBlank(message: "L'état du livre ne peut pas être vide. Vous devez forcément faire un choix")]
+    private ?string $etat = null;
+
+    #[ORM\Column(nullable: false)]
+    #[Assert\NotBlank(message: "Le prix du livre ne peut pas être vide.")]
+    #[Assert\Positive(message: "Le prix doit être un nombre positif.")]
+    #[Assert\Type(
+        type: 'integer',
+        message: "Le prix doit être un nombre entier."
+    )]
+    private ?int $prix = null;
 
     public function __construct()
     {
@@ -134,7 +146,7 @@ class Livre
         return $this->numeroISBN;
     }
 
-    public function setNumeroISBN(string $numeroISBN): static
+    public function setNumeroISBN(?string $numeroISBN): static
     {
         $this->numeroISBN = $numeroISBN;
 
@@ -255,6 +267,30 @@ class Livre
         if ($this->auteurs->removeElement($auteur)) {
             $auteur->removeLivre($this);
         }
+
+        return $this;
+    }
+
+    public function getEtat(): ?string
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(string $etat): static
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getPrix(): ?int
+    {
+        return $this->prix;
+    }
+
+    public function setPrix(int $prix): static
+    {
+        $this->prix = $prix;
 
         return $this;
     }

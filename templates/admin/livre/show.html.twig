@@ -3,41 +3,68 @@
 {% block title %}Livre{% endblock %}
 
 {% block body %}
-<section class="container px-4">
-    <h1>Livre : </h1>
-
+<section class="py-5">
     {% if livre is not null %}
-        <div class="card mb-1 m-auto">
-            <div class="card-body">
-                <div class="card-title d-flex justify-content-between">
-                    <h4 class="mb-1">{{ livre.titre }}</h4>
-                    <small class="text-muted">Identifiant : {{ livre.id }}</small>
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="row gx-4 gx-lg-5 align-items-center">
+                <div class="col-md-6 position-relative">
+                    {% set badgeColor = 'bg-dark' %}
+                    {% if livre.statut.value == 'disponible' %}{% set badgeColor = 'bg-success text-white' %}
+                    {% elseif livre.statut.value == 'emprunté' %}{% set badgeColor = 'bg-warning text-dark' %}
+                    {% elseif livre.statut.value == 'indisponible' %}{% set badgeColor = 'bg-danger text-white' %}
+                    {% endif %}
+
+                    <div class="badge {{ badgeColor }} position-absolute" style="top: 0.5rem; right: 2rem; z-index: 10; font-size: 1rem;">
+                        {{ livre.statut.getLabel() }}
+                    </div>
+                    <img class="card-img-top mb-5 mb-md-0" src={{ livre.image }} alt="..." />
                 </div>
-                <div class="d-flex justify-content-between card-text">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><h5>Date d'édition : </h5>{{ livre.getDateEdition()|date('d M Y') }}</li>
-                        <li class="list-group-item"><h5>ISBN : </h5>{{ livre.getNumeroISBN() }}</li>
-                        <li class="list-group-item">
-                            <h5>Auteur : </h5>
-                            <ul class="list-group list-group-flush">
-                                {% for auteur in livre.auteurs %}
-                                    <li class="list-group-item">
-                                        <a href="{{ path('app_admin_auteur_show', {id: auteur.id}) }}">{{ auteur.nomPrenom }}</a>
-                                    </li>
-                                {% else %}
-                                    <li class="list-group-item">Pas d'auteur connu</li>
-                                {% endfor %}
-                            </ul>
-                        </li>
-                        <li class="list-group-item">
-                            <h5>Éditeur : </h5>
-                            <a href="{{ path('app_admin_editeur_show', {id: livre.editeur.id}) }}">{{ livre.editeur.nomPrenom }}</a>
-                        </li>
-                        <li class="list-group-item"><h5>Nombre de pages : </h5>{{ livre.nombrePages }}</li>
-                        <li class="list-group-item"><h5>Synopsis : </h5>{{ livre.synopsis }}</li>
-                    </ul>
-                    <div>
-                        <img src="{{ livre.image }}" alt="Couverture de {{ livre.titre }}">
+                <div class="col-md-6">
+                    {#<div class="small mb-1">SKU: BST-498</div>#}
+                    <h1 class="display-5 fw-bolder">Titre : {{ livre.titre }}</h1>
+                    <h5>Editeur : {{ livre.editeur.nomPrenom is not null ? livre.editeur.nomPrenom : '-' }}</h5>
+                    {#<h5>ISBN : {{ livre.numeroISBN ?: 'Non renseigné' }}</h5>#}
+                    <li class="list-group-item">
+                        <h5>Auteur(s) : 
+                            {% for auteur in livre.auteurs %}
+                                <a>{{ auteur.nomPrenom }}</a>{% if not loop.last %}{% if loop.revindex0 == 1 %} & {% else %}, {% endif %}{% endif %}
+                            {% endfor %}
+                            {% if livre.auteurs|length == 0 %}
+                                Pas d'auteur connu
+                            {% endif %}
+                        </h5>
+                    </li>
+                    <br>
+                    <h5>Synopsis : </h5>
+                    <p class="lead">{{ livre.synopsis }}</p>
+                    <div class="d-flex small text-warning mb-2">
+                        {% set rating = 0 %}
+                        {% if livre.etat == 'Neuf' %}{% set rating = 5 %}
+                        {% elseif livre.etat == 'Bon état' %}{% set rating = 4 %}
+                        {% elseif livre.etat == 'État moyen' %}{% set rating = 3 %}
+                        {% elseif livre.etat == 'Mauvais état' %}{% set rating = 2 %}
+                        {% elseif livre.etat == 'Abîmé' %}{% set rating = 1 %}
+                        {% endif %}
+                        {% for i in 1..5 %}
+                            {% if i <= rating %}
+                                <i class="bi bi-star-fill"></i>
+                            {% else %}
+                                <i class="bi bi-star"></i>
+                            {% endif %}
+                        {% endfor %}
+                        <span class="ms-2 text-dark">({{ livre.etat }})</span>
+                    </div>
+                    <div class="fs-5 mb-5">
+                        {#<span class="text-decoration-line-through">$45.00</span>#}
+                        <p>{{ livre.prix }} FCFA</p>
+                    </div>
+                    <div class="d-flex">
+                            <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />
+                            <button class="btn btn-outline-dark flex-shrink-0" type="button">
+                                <i class="bi-cart-fill me-1"></i>
+                                Ajouter au panier
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -45,7 +72,9 @@
     {% else %}
         <div>Livre non trouvé</div>
     {% endif %}
-    <a href="{{ path('app_admin_livre_index') }}" class="btn btn-primary">Retour</a>
-    <a href="{{ path('app_admin_livre_edit', {id: livre.id}) }}" class="btn btn-warning">Éditer</a>
+    <div style="display: flex; justify-content: center;">
+        <a href="{{ path('app_admin_livre_index') }}" class="btn btn-outline-dark flex-shrink-0">Retour au catalogue</a>
+    </div>
+    {# <a href="{{ path('app_admin_livre_edit', {id: livre.id}) }}" class="btn btn-warning">Éditer</a>#}
 </section>
 {% endblock %}

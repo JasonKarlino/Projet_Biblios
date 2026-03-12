@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/admin/user')]
+#[Route('/admin/utilisateur')]
 class RegistrationController extends AbstractController
 {
     #[Route('/new', name: 'app_register')]

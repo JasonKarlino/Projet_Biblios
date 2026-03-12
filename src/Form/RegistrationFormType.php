@@ -40,6 +40,7 @@ class RegistrationFormType extends AbstractType
                     'Administrateur' => 'ROLE_ADMIN',
                 ],
                 'multiple' => false,
+                'expanded' => true,
                 'mapped' => false,
             ])
             ->add('plainPassword', PasswordType::class, [
