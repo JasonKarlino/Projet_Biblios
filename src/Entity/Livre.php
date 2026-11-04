@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\LivreRepository;
 use App\Enum\LivreStatus;
+use App\Enum\CategorieEnum;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -105,6 +106,18 @@ class Livre
         message: "Le prix doit être un nombre entier."
     )]
     private ?int $prix = null;
+
+    #[ORM\Column(length: 255, nullable: true, enumType: CategorieEnum::class)]
+    private ?CategorieEnum $categorie = null;
+
+    #[ORM\Column(nullable: true)]
+    #[Assert\NotBlank(message: "La quantité du livre ne peut pas être vide.")]
+    #[Assert\PositiveOrZero(message: "La quantité doit être un nombre positif ou nul.")]
+    #[Assert\Type(
+        type: 'integer',
+        message: "La quantité doit être un nombre entier."
+    )]
+    private ?int $quantite = null;
 
     public function __construct()
     {
@@ -291,6 +304,30 @@ class Livre
     public function setPrix(int $prix): static
     {
         $this->prix = $prix;
+
+        return $this;
+    }
+
+    public function getCategorie(): ?CategorieEnum
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(?CategorieEnum $categorie): static
+    {
+        $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    public function getQuantite(): ?int
+    {
+        return $this->quantite;
+    }
+
+    public function setQuantite(?int $quantite): static
+    {
+        $this->quantite = $quantite;
 
         return $this;
     }

@@ -19,25 +19,33 @@
                         <div class="card-body p-4">
                             <div class="text-center">
                                 <!-- Product name-->
-                                <h5 class="fw-bolder">{{ livre.titre }}</h5>
-                                <!-- Product price-->
-                                <p class="text-muted">{{ livre.prix }} FCFA</p>
-                            </div>
-                            <div class="d-flex justify-content-center small text-warning mb-2">
-                                {% set rating = 0 %}
-                                {% if livre.etat == 'Neuf' %}{% set rating = 5 %}
-                                {% elseif livre.etat == 'Bon état' %}{% set rating = 4 %}
-                                {% elseif livre.etat == 'État moyen' %}{% set rating = 3 %}
-                                {% elseif livre.etat == 'Mauvais état' %}{% set rating = 2 %}
-                                {% elseif livre.etat == 'Abîmé' %}{% set rating = 1 %}
-                                {% endif %}
-                                {% for i in 1..5 %}
-                                    {% if i <= rating %}
-                                        <i class="bi bi-star-fill"></i>
-                                    {% else %}
-                                        <i class="bi bi-star"></i>
+                                <h5 class="fw-bolder mb-1">{{ livre.titre }}</h5>
+                                
+                                <!-- Product category-->
+                                <div class="small text-muted text-uppercase mb-2">
+                                    {{ livre.categorie is not null ? livre.categorie.getLabel() : 'Non classé' }}
+                                </div>
+
+                                <!-- Product rating (Condition) -->
+                                <div class="d-flex justify-content-center small text-warning mb-1">
+                                    {% set rating = 0 %}
+                                    {% if livre.etat == 'Neuf' %}{% set rating = 5 %}
+                                    {% elseif livre.etat == 'Bon état' %}{% set rating = 4 %}
+                                    {% elseif livre.etat == 'État moyen' %}{% set rating = 3 %}
+                                    {% elseif livre.etat == 'Mauvais état' %}{% set rating = 2 %}
+                                    {% elseif livre.etat == 'Abîmé' %}{% set rating = 1 %}
                                     {% endif %}
-                                {% endfor %}
+                                    {% for i in 1..5 %}
+                                        {% if i <= rating %}
+                                            <i class="bi bi-star-fill"></i>
+                                        {% else %}
+                                            <i class="bi bi-star"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+
+                                <!-- Product price-->
+                                <div class="fw-bold mb-3">{{ livre.prix }} FCFA</div>
                             </div>
                             <!-- Product actions-->
                             <div class="text-center mt-auto">

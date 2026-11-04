@@ -6,6 +6,7 @@ use App\Entity\Auteur;
 use App\Entity\Editeur;
 use App\Entity\Livre;
 use App\Enum\LivreStatus;
+use App\Enum\CategorieEnum;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -55,15 +56,15 @@ class LivreType extends AbstractType
                     'placeholder' => 'Entrez le synopsis du livre',
                 ],
             ])
-            ->add('statut', EnumType::class, [
-                'class' => LivreStatus::class,
-                'choice_label' => fn(LivreStatus $choice) => $choice->getLabel(),
-                'attr' => [
-                    'placeholder' => 'Sélectionnez un statut',
-                ],
-                'expanded' => false,
-                'multiple' => false,
-            ])
+            // ->add('statut', EnumType::class, [
+            //     'class' => LivreStatus::class,
+            //     'choice_label' => fn(LivreStatus $choice) => $choice->getLabel(),
+            //     'attr' => [
+            //         'placeholder' => 'Sélectionnez un statut',
+            //     ],
+            //     'expanded' => false,
+            //     'multiple' => false,
+            // ])
             ->add('etat', ChoiceType::class, [
                 'choices' => [
                     'Neuf' => 'Neuf',
@@ -76,9 +77,21 @@ class LivreType extends AbstractType
                 'multiple' => false,
                 'expanded' => false,
             ])
+            ->add('categorie', EnumType::class, [
+                'class' => CategorieEnum::class,
+                'choice_label' => fn(CategorieEnum $choice) => $choice->getLabel(),
+                'placeholder' => 'Sélectionnez une catégorie',
+                'expanded' => false,
+                'multiple' => false,
+            ])
             ->add('prix', NumberType::class, [
                 'attr' => [
                     'placeholder' => 'Entrez le prix du livre',
+                ],
+            ])
+            ->add('quantite', NumberType::class, [
+                'attr' => [
+                    'placeholder' => 'Entrez la quantité du livre',
                 ],
             ])
             ->add('editeur', EntityType::class, [

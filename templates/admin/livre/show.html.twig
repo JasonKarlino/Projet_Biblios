@@ -34,9 +34,10 @@
                             {% endif %}
                         </h5>
                     </li>
+                    <h5>Catégorie : {{ livre.categorie is not null ? livre.categorie.getLabel() : 'Non classé' }}</h5>
                     <br>
                     <h5>Synopsis : </h5>
-                    <p class="lead">{{ livre.synopsis }}</p>
+                    <p class="lead" style="text-align: justify;">{{ livre.synopsis }}</p>
                     <div class="d-flex small text-warning mb-2">
                         {% set rating = 0 %}
                         {% if livre.etat == 'Neuf' %}{% set rating = 5 %}
@@ -74,7 +75,8 @@
     {% endif %}
     <div style="display: flex; justify-content: center;">
         <a href="{{ path('app_admin_livre_index') }}" class="btn btn-outline-dark flex-shrink-0">Retour au catalogue</a>
+        <a href="{{ path('app_admin_livre_edit', {id: livre.id}) }}" class="btn btn-warning">Éditer</a>
     </div>
-    {# <a href="{{ path('app_admin_livre_edit', {id: livre.id}) }}" class="btn btn-warning">Éditer</a>#}
+    
 </section>
 {% endblock %}

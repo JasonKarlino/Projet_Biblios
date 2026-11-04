@@ -6,7 +6,7 @@ services:
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-biblios_manager_db}
       # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-MozCapJas200430}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
       POSTGRES_USER: ${POSTGRES_USER:-biblios_manager_user}
     ports:
       - "5434:5432"

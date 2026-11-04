@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use App\Form\LivreType;
 use App\Entity\Livre;
+use App\Enum\LivreStatus;
 use App\Repository\LivreRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -40,6 +41,15 @@ final class LivreController extends AbstractController
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $quantite = $form->get('quantite')->getData();
+            if($quantite > 0){
+                $livre->setStatut(LivreStatus::DISPONIBLE);
+            }else if($quantite = 0){
+                $livre->setStatut(LivreStatus::INDISPONIBLE);
+            }else{
+                $livre->setStatut(LivreStatus::EMPRUNTE);
+            }
             
             $entityManager->persist($livre);
             $entityManager->flush();
