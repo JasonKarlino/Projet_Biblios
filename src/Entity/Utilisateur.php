@@ -22,7 +22,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180)]
     #[Assert\Email(message: "L'adresse mail doit être valide.")]
     #[Assert\NotBlank(message: 'L\'adresse mail est obligatoire.')]
-    #[Assert\Unique(message: 'Cette adresse mail est déjà utilisée.')]
     private ?string $email = null;
 
     /**
@@ -35,13 +34,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Assert\NotBlank(message: 'Le mot de passe est obligatoire.')]
-    #[Assert\Length(
-        min: 6,
-        max: 255,
-        minMessage: 'Le mot de passe doit contenir au moins {{ limit }} caractères',
-        maxMessage: 'Le mot de passe doit contenir au maximum {{ limit }} caractères',
-    )]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
