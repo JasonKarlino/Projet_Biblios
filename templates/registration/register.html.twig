@@ -1,26 +1,36 @@
-{% extends 'newbase.html.twig' %}
+{% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}S'inscrire{% endblock %}
 
 {% block body %}
-    <div class="mb-3" style="margin-right: 25rem; margin-left: 25rem;">
-        <h1>Register</h1>
-        {{ form_errors(registrationForm) }}
+<section class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white text-center py-3">
+                    <h1 class="h4 mb-0 fw-normal">S'inscrire</h1>
+                </div>
+                <div class="card-body p-4">
+                    {{ form_errors(registrationForm) }}
 
-        {{ form_start(registrationForm) }}
-            {{ form_row(registrationForm.lastName) }}
-            {{ form_row(registrationForm.firstName) }}
-            {{ form_row(registrationForm.username) }}
-            {{ form_row(registrationForm.email) }}
-            {{ form_row(registrationForm.plainPassword) }}
-            {{ form_row(registrationForm.roles) }}
-            {# {{ form_row(registrationForm.agreeTerms) }} #}
+                    {{ form_start(registrationForm) }}
+                        {{ form_row(registrationForm.lastName) }}
+                        {{ form_row(registrationForm.firstName) }}
+                        {{ form_row(registrationForm.username) }}
+                        {{ form_row(registrationForm.email) }}
+                        {{ form_row(registrationForm.plainPassword) }}
+                        {{ form_row(registrationForm.roles) }}
+                        {# {{ form_row(registrationForm.agreeTerms) }} #}
 
-            <button type="submit" class="btn btn-primary">S'inscrire</button>
-        {{ form_end(registrationForm) }}
-        <div class="mb-3">
-            <a href="{{ path('app_login') }}">Vous avez déjà un compte? Connectez-vous ici.</a>
-        </div>
+                        <button type="submit" class="btn btn-primary">S'inscrire</button>
+                    {{ form_end(registrationForm) }}
+                    <div class="mb-3">
+                        <a href="{{ path('app_login') }}">Vous avez déjà un compte? Connectez-vous ici.</a>
+                    </div>
+                </div>
+            </div>
+        </div> 
     </div>
+</section>
 
 {% endblock %}

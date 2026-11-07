@@ -74,8 +74,7 @@ class Livre
     )]
     private ?string $synopsis = null;
 
-    #[ORM\Column(enumType: LivreStatus::class)]
-    #[Assert\NotBlank(message: "Le statut du livre ne peut pas être vide.")]
+    #[ORM\Column(enumType: LivreStatus::class, nullable: true)]
     private ?LivreStatus $statut = null;
 
     #[ORM\ManyToOne(inversedBy: 'livres')]
