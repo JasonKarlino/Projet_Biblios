@@ -16,7 +16,6 @@ use Pagerfanta\Doctrine\ORM\QueryAdapter;
 #[Route('/admin/auteur')]
 final class AuteurController extends AbstractController
 {
-
     #[Route('', name: 'app_admin_auteur_index', methods: ['GET'])]
     public function index(AuteurRepository $auteurRepository, Request $request): Response
     {
@@ -31,10 +30,15 @@ final class AuteurController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_AJOUT_DE_LIVRE')]
     #[Route('/new', name: 'app_admin_auteur_new', methods: ['GET', 'POST'])]
     #[Route('/{id}/edit', name: 'app_admin_auteur_edit', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
     public function new(?Auteur $auteur, Request $request, EntityManagerInterface $entityManager): Response
-    {        
+    {   
+        if($auteur){
+            $this->denyAccessUnlessGranted(attribute: 'ROLE_EDITION_DE_LIVRE', message: 'Vous n\'avez pas les droits pour modifier un auteur.');
+        }    
+
         $auteur ??= new Auteur();
         $form = $this->createForm(AuteurType::class, $auteur);
         $form->handleRequest($request);

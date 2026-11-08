@@ -30,10 +30,15 @@ class EditeurController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_AJOUT_DE_LIVRE')]
     #[Route('/new', name: 'app_admin_editeur_new', methods: ['GET', 'POST'])]
     #[Route('/{id}/edit', name: 'app_admin_editeur_edit', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
     public function new(?Editeur $editeur, Request $request, EntityManagerInterface $manager): Response
     {
+        if($editeur) {
+            $this->denyAccessUnlessGranted('ROLE_EDITION_DE_LIVRE', 'Vous n\'avez pas les droits pour modifier un éditeur.');
+        }
+        
         $editeur ??= new Editeur();
         $form = $this->createForm(EditeurType::class, $editeur);
 
