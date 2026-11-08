@@ -49,10 +49,8 @@ final class LivreController extends AbstractController
             $quantite = $form->get('quantite')->getData();
             if($quantite > 0){
                 $livre->setStatut(LivreStatus::DISPONIBLE);
-            }else if($quantite == 0){
-                $livre->setStatut(LivreStatus::INDISPONIBLE);
             }else{
-                $livre->setStatut(LivreStatus::EMPRUNTE);
+                $livre->setStatut(LivreStatus::INDISPONIBLE);
             }
             
             $entityManager->persist($livre);
