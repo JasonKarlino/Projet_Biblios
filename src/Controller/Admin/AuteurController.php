@@ -19,7 +19,14 @@ final class AuteurController extends AbstractController
     #[Route('', name: 'app_admin_auteur_index', methods: ['GET'])]
     public function index(AuteurRepository $auteurRepository, Request $request): Response
     {
-         $auteurs = Pagerfanta::createForCurrentPageWithMaxPerPage(
+        $dates = [];
+        if ($request->query->has('start')) {
+            $dates['start'] = $request->query->get('start');
+        }
+        if ($request->query->has('end')) {
+            $dates['end'] = $request->query->get('end');
+        }
+        $auteurs = Pagerfanta::createForCurrentPageWithMaxPerPage(
             new QueryAdapter($auteurRepository->createQueryBuilder('a')),
             $request->query->get('page', 1),
             10

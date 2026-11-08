@@ -46,6 +46,11 @@ final class LivreController extends AbstractController
         
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $utilisateur = $this->getUtilisateur();
+            if(!$livre->getId() && $utilisateur instanceof Utilisateur){
+                $livre->setUtilisateur($utilisateur);
+            }   
+
             $quantite = $form->get('quantite')->getData();
             if($quantite > 0){
                 $livre->setStatut(LivreStatus::DISPONIBLE);
