@@ -46,7 +46,7 @@ final class LivreController extends AbstractController
         
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $utilisateur = $this->getUtilisateur();
+            $utilisateur = $livre->getUtilisateur();
             if(!$livre->getId() && $utilisateur instanceof Utilisateur){
                 $livre->setUtilisateur($utilisateur);
             }   

@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UtilisateurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -69,6 +70,9 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\OneToMany(targetEntity: Livre::class, mappedBy: 'utilisateur')]
     private Collection $livres;
+
+    #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $derniereConnection = null;
 
     public function __construct()
     {
@@ -230,6 +234,18 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
                 $livre->setUtilisateur(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDerniereConnection(): ?\DateTimeImmutable
+    {
+        return $this->derniereConnection;
+    }
+
+    public function setDerniereConnection(?\DateTimeImmutable $derniereConnection): static
+    {
+        $this->derniereConnection = $derniereConnection;
 
         return $this;
     }
