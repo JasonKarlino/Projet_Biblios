@@ -18,7 +18,7 @@ final class MaintenanceListener
     ) {
     }
 
-    #[AsEventListener(event: KernelEvents::REQUEST, priority: 2000)]
+    #[AsEventListener(event: KernelEvents::REQUEST, priority: 1000)]
     public function onRequestEvent(RequestEvent $event): void
     {
         if(self::IS_MAINTENANCE) {
