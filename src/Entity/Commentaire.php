@@ -30,7 +30,7 @@ class Commentaire
     #[Assert\NotBlank(message: "L'adresse email de l'auteur est obligatoire.")]
     #[Assert\Email(message: "L'adresse email n'est pas valide.")]
     private ?string $mailAuteur = null;
-
+ 
     #[ORM\Column]
     #[Assert\NotBlank(message: "La date de création est obligatoire.")]
     #[Assert\Type(type: 'datetime_immutable', message: "La date de création doit être une instance de DateTimeImmutable.")]

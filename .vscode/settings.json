@@ -4,8 +4,11 @@
         "Categorie",
         "csrf",
         "Derniere",
+        "editeur",
         "hashers",
+        "isbn",
         "MODERATEUR",
+        "Nationalite",
         "quantite",
         "Symfony"
     ]
